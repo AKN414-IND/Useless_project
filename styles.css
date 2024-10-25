@@ -1,34 +1,40 @@
 :root {
-    --primary-color: #3b82f6;
-    --primary-dark: #2563eb;
-    --secondary-color: #64748b;
-    --accent-color: #f59e0b;
+    --primary-color: #3498db;
+    --primary-dark: #3730a3;
+    --secondary-color: #2ecc71;
+    --accent-color: #fbbf24;
     --success-color: #22c55e;
-    --bg-color: #f8fafc;
+    --bg-color: #f4f4f4;
     --card-bg: #ffffff;
-    --border-color: #e2e8f0;
+    --border-color: #e5e7eb;
+    --text-color: #333;
 }
 
 * {
     margin: 0;
     padding: 0;
+    
     box-sizing: border-box;
+    
+
 }
 
+html{
+    margin-top: 100px;
+}
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, var(--bg-color), #e0f7fa);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    color: #1e293b;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    justify-items: center;
+    text-align: center;
+    
 }
 
 .header {
     text-align: center;
     margin-bottom: 3rem;
+    justify-items: center;
 }
 
 .logo {
@@ -51,9 +57,10 @@ body {
     background-color: var(--card-bg);
     padding: 2rem;
     border-radius: 1.5rem;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    width: 100%;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     max-width: 700px;
+    width: 100%;
+    text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -66,11 +73,14 @@ body {
 
 .tabs {
     display: flex;
-    gap: 0.5rem;
+    flex-direction: row;
+    flex-flow: wrap;
+    gap: 0.75rem;
     margin-bottom: 2rem;
     padding: 0.5rem;
     background-color: var(--bg-color);
     border-radius: 1rem;
+    justify-content: center;
 }
 
 .tab {
@@ -84,12 +94,15 @@ body {
     font-weight: 500;
     flex: 1;
     justify-content: center;
+    background-color: var(--bg-color);
+    border: 1px solid transparent;
 }
 
 .tab.active {
     background-color: var(--card-bg);
     color: var(--primary-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--primary-color);
 }
 
 .tab:hover:not(.active) {
@@ -103,12 +116,13 @@ body {
 .input-wrapper {
     position: relative;
     margin-bottom: 1rem;
+    text-align: left;
 }
 
 .input-label {
     display: block;
     margin-bottom: 0.5rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--secondary-color);
 }
 
@@ -136,13 +150,13 @@ input:focus,
 textarea:focus,
 select:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 }
 
 .input-icon {
     position: absolute;
     left: 1rem;
-    top: 50%;
+    top: 70%;
     transform: translateY(-50%);
     color: var(--secondary-color);
 }
@@ -161,10 +175,10 @@ select:focus {
     color: white;
     border: none;
     border-radius: 0.75rem;
-    font-size: 1.1rem; /* Increased font size */
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -174,7 +188,7 @@ select:focus {
 
 .generate-btn:hover {
     background-color: var(--primary-dark);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -250,9 +264,9 @@ select:focus {
 }
 
 .feature:hover {
-    transform: translateY(-2px);
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .feature i {
@@ -262,8 +276,8 @@ select:focus {
 
 .success-message {
     display: none;
-    background-color: #ecfdf5;
-    color: #065f46;
+    background-color: #d1fae5;
+    color: #4ade80;
     padding: 1rem;
     border-radius: 0.75rem;
     margin-top: 1rem;
