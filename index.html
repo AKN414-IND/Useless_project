@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RolledQR - Professional QR Generator</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-qrcode"></i>
+            RolledQR
+        </div>
+        <p class="tagline">Create professional QR codes in seconds</p>
+    </div>
+    
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('url')">
+                <i class="fas fa-link"></i>
+                URL
+            </div>
+            <div class="tab" onclick="switchTab('text')">
+                <i class="fas fa-font"></i>
+                Text
+            </div>
+            <div class="tab" onclick="switchTab('contact')">
+                <i class="fas fa-address-card"></i>
+                Contact
+            </div>
+            <div class="tab" onclick="switchTab('wifi')">
+                <i class="fas fa-wifi"></i>
+                WiFi
+            </div>
+        </div>
+
+        <!-- URL Section -->
+        <div class="form-section active" id="url-section">
+            <div class="input-wrapper">
+                <label class="input-label">Enter URL</label>
+                <i class="fas fa-link input-icon"></i>
+                <input type="text" placeholder="https://example.com">
+            </div>
+        </div>
+
+        <!-- Text Section -->
+        <div class="form-section" id="text-section">
+            <div class="input-wrapper">
+                <label class="input-label">Enter Text Content</label>
+                <textarea placeholder="Type your message here..."></textarea>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="form-section" id="contact-section">
+            <div class="form-row">
+                <div class="input-wrapper">
+                    <label class="input-label">Full Name</label>
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" placeholder="John Doe">
+                </div>
+                <div class="input-wrapper">
+                    <label class="input-label">Email</label>
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" placeholder="john@example.com">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-wrapper">
+                    <label class="input-label">Phone</label>
+                    <i class="fas fa-phone input-icon"></i>
+                    <input type="tel" placeholder="+1 (234) 567-8900">
+                </div>
+                <div class="input-wrapper">
+                    <label class="input-label">Company</label>
+                    <i class="fas fa-building input-icon"></i>
+                    <input type="text" placeholder="Company Name">
+                </div>
+            </div>
+        </div>
+
+        <!-- WiFi Section -->
+        <div class="form-section" id="wifi-section">
+            <div class="input-wrapper">
+                <label class="input-label">Network Name (SSID)</label>
+                <i class="fas fa-wifi input-icon"></i>
+                <input type="text" placeholder="Your WiFi Network">
+            </div>
+            <div class="input-wrapper">
+                <label class="input-label">Password</label>
+                <i class="fas fa-key input-icon"></i>
+                <input type="text" placeholder="Network Password">
+            </div>
+        </div>
+
+        <button onclick="generateQR()" class="generate-btn" id="generate-btn">
+            <i class="fas fa-magic"></i>
+            Generate QR Code
+        </button>
+
+        <div class="qr-result" id="qr-result">
+            <div id="qrcode"></div>
+            <div class="download-options">
+                <button onclick="downloadQR('png')" class="download-btn">
+                    <i class="fas fa-image"></i>
+                    PNG
+                </button>
+                <button onclick="downloadQR('jpg')" class="download-btn">
+                    <i class="fas fa-file-image"></i>
+                    JPG
+                </button>
+                <button onclick="downloadQR('svg')" class="download-btn">
+                    <i class="fas fa-vector-square"></i>
+                    SVG
+                </button>
+            </div>
+            <div id="success-message" class="success-message">
+                <i class="fas fa-check-circle"></i>
+                QR Code downloaded successfully!
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-bolt"></i>
+                <span>Instant Generation</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure & Reliable</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-download"></i>
+                <span>Multiple Formats</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.form-section').forEach(section => section.classList.remove('active'));
+            
+            document.querySelector(`.tab:has(i.fa-${tabId === 'url' ? 'link' : tabId === 'text' ? 'font' : tabId === 'contact' ? 'address-card' : 'wifi'})`).classList.add('active');
+            document.getElementById(`${tabId}-section`).classList.add('active');
+            
+            document.getElementById('qr-result').classList.remove('show');
+        }
+
+        function generateQR() {
+            const button = document.getElementById('generate-btn');
+            const qrcodeDiv = document.getElementById('qrcode');
+            const qrResult = document.getElementById('qr-result');
+            
+            qrcodeDiv.innerHTML = '';
+            
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            button.disabled = true;
+            
+            const fixedUrl = 'https://www.youtube.com/shorts/SXHMnicI6Pg?feature=share';
+            
+            setTimeout(() => {
+                new QRCode(qrcodeDiv, {
+                    text: fixedUrl,
+                    width: 256,
+                    height: 256,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                
+                qrResult.classList.add('show');
+                
+                button.innerHTML = '<i class="fas fa-magic"></i> Generate QR Code';
+                button.disabled = false;
+                
+                qrResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 800);
+        }
+
+        async function downloadQR(format) {
+            const qrcode = document.getElementById('qrcode');
+            const successMessage = document.getElementById('success-message');
+            
+            try {
+                const canvas = await html2canvas(qrcode);
+                
+                const link = document.createElement('a');
+                
+                const timestamp = new Date().toISOString().slice(0, 10);
+                const filename = `RolledQR-${timestamp}`;
+                
+                if (format === 'svg') {
+                    const svgData = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256">
+                            <image href="${canvas.toDataURL('image/png')}" width="256" height="256"/>
+                        </svg>
+                    `;
+                    const blob = new Blob([svgData], { type: 'image/svg+xml' });
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `${filename}.svg`;
+                } else {
+                    link.href = canvas.toDataURL(`image/${format}`);
+                    link.download = `${filename}.${format}`;
+                }
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                successMessage.style.display = 'block';
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Error downloading QR code:', error);
+                alert('There was an error downloading your QR code. Please try again.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.form-section');
+            sections.forEach(section => {
+                if (!section.classList.contains('active')) {
+                    section.style.display = 'none';
+                }
+            });
+        });
+
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const sections = document.querySelectorAll('.form-section');
+                sections.forEach(section => {
+                    if (section.classList.contains('active')) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
