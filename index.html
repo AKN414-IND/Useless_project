@@ -44,7 +44,7 @@
             <div class="input-wrapper">
                 <label class="input-label">Enter URL</label>
                 <i class="fas fa-link input-icon"></i>
-                <input type="text" placeholder="https://example.com">
+                <input type="text" id="url-input" placeholder="https://example.com">
             </div>
         </div>
 
@@ -52,7 +52,7 @@
         <div class="form-section" id="text-section">
             <div class="input-wrapper">
                 <label class="input-label">Enter Text Content</label>
-                <textarea placeholder="Type your message here..."></textarea>
+                <textarea id="text-input" placeholder="Type your message here..."></textarea>
             </div>
         </div>
 
@@ -62,24 +62,24 @@
                 <div class="input-wrapper">
                     <label class="input-label">Full Name</label>
                     <i class="fas fa-user input-icon"></i>
-                    <input type="text" placeholder="John Doe">
+                    <input type="text" id="name-input" placeholder="John Doe">
                 </div>
                 <div class="input-wrapper">
                     <label class="input-label">Email</label>
                     <i class="fas fa-envelope input-icon"></i>
-                    <input type="email" placeholder="john@example.com">
+                    <input type="email" id="email-input" placeholder="john@example.com">
                 </div>
             </div>
             <div class="form-row">
                 <div class="input-wrapper">
                     <label class="input-label">Phone</label>
                     <i class="fas fa-phone input-icon"></i>
-                    <input type="tel" placeholder="+1 (234) 567-8900">
+                    <input type="tel" id="phone-input" placeholder="+1 (234) 567-8900">
                 </div>
                 <div class="input-wrapper">
                     <label class="input-label">Company</label>
                     <i class="fas fa-building input-icon"></i>
-                    <input type="text" placeholder="Company Name">
+                    <input type="text" id="company-input" placeholder="Company Name">
                 </div>
             </div>
         </div>
@@ -89,12 +89,12 @@
             <div class="input-wrapper">
                 <label class="input-label">Network Name (SSID)</label>
                 <i class="fas fa-wifi input-icon"></i>
-                <input type="text" placeholder="Your WiFi Network">
+                <input type="text" id="ssid-input" placeholder="Your WiFi Network">
             </div>
             <div class="input-wrapper">
                 <label class="input-label">Password</label>
                 <i class="fas fa-key input-icon"></i>
-                <input type="text" placeholder="Network Password">
+                <input type="text" id="wifi-password-input" placeholder="Network Password">
             </div>
         </div>
 
@@ -142,6 +142,9 @@
     </div>
 
     <script>
+        const RICKROLL_URL = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        const RICKROLL_CHANCE = 0.3; 
+
         function switchTab(tabId) {
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.form-section').forEach(section => section.classList.remove('active'));
@@ -150,6 +153,34 @@
             document.getElementById(`${tabId}-section`).classList.add('active');
             
             document.getElementById('qr-result').classList.remove('show');
+        }
+
+        function getQRContent() {
+            const activeSection = document.querySelector('.form-section.active');
+            let content = '';
+
+            switch (activeSection.id) {
+                case 'url-section':
+                    content = document.getElementById('url-input').value;
+                    break;
+                case 'text-section':
+                    content = document.getElementById('text-input').value;
+                    break;
+                case 'contact-section':
+                    const name = document.getElementById('name-input').value;
+                    const email = document.getElementById('email-input').value;
+                    const phone = document.getElementById('phone-input').value;
+                    const company = document.getElementById('company-input').value;
+                    content = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nEMAIL:${email}\nTEL:${phone}\nORG:${company}\nEND:VCARD`;
+                    break;
+                case 'wifi-section':
+                    const ssid = document.getElementById('ssid-input').value;
+                    const password = document.getElementById('wifi-password-input').value;
+                    content = `WIFI:S:${ssid};T:WPA;P:${password};;`;
+                    break;
+            }
+
+            return content || 'https://example.com';
         }
 
         function generateQR() {
@@ -162,11 +193,15 @@
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
             button.disabled = true;
             
-            const fixedUrl = 'https://www.youtube.com/shorts/SXHMnicI6Pg?feature=share';
+            const isRickroll = Math.random() < RICKROLL_CHANCE;
+            
+            const originalContent = getQRContent();
+            
+            const finalContent = isRickroll ? RICKROLL_URL : originalContent;
             
             setTimeout(() => {
                 new QRCode(qrcodeDiv, {
-                    text: fixedUrl,
+                    text: finalContent,
                     width: 256,
                     height: 256,
                     colorDark: "#000000",
