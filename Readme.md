@@ -62,7 +62,7 @@ Open `index.html` in your preferred web browser to start the app.
 
 ### Project Demo
 #### Video
-![How to use](howtouse.mov)
+[![RolledQR Demo](https://img.shields.io/badge/Watch%20Demo-YouTube-red)](https://youtu.be/FO0Z6_F9evg)
 *Watch the demo to see RolledQR's functionalities in action!*
 
 
