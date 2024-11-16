@@ -5,6 +5,7 @@
 ## Basic Details
 ### Team Name: QR-Coders
 
+### Link : https://akn414-ind.github.io/Useless_project/
 ### Team Members
 - Team Lead: AKN414-IND - Open Source Enthusiast
 
